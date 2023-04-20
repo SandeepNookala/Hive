@@ -1,0 +1,82 @@
+
+
+1.Select Query:
+------------------
+select * from employee;
+
+
+2.Aggregation functions:
+----------------------
+select sum(salary) from employee;
+select max(salary) from employee;
+select min(salary) from employee;
+select count(*) from employee;
+select avg(salary) from employee;
+
+
+3.limit:
+--------
+select * from employee limit 5;
+
+
+4.Create new table from old table with sechema and data:
+------------------------------------------------------
+create table emp as select empid,fname,salary from employee;
+
+
+5.Create new table from old table with sechema and without data:
+--------------------------------------------------------------
+create table updated_emp like employee;
+create table update as select * from employee where 1=2;
+
+
+6.Rename table:
+---------------
+alter table new_emp rename to emp;
+
+
+7.order by :
+----------
+select * from employee order by salary;
+
+8.order by :
+----------
+select * from employee sort by salary;
+
+9.group by:
+---------
+select sum(salary),dept from employee group by empid,fname,dept;
+
+10.Inner join :
+----------------
+
+select employee.* ,dept.* 
+from employee 
+join dept
+on employee.empid = dept.deptid ;
+
+10.left join :
+----------------
+
+select employee.* ,dept.*
+from employee
+left join dept 
+on employee.empid = dept.deptid ;
+
+11.right join:
+--------------
+
+select employee.* ,dept.*
+from employee
+right join dept 
+on employee.empid = dept.deptid ;
+
+11.full join:
+--------------
+
+select employee.* ,dept.*
+from employee
+full join dept
+on employee.empid = dept.deptid ;
+
+

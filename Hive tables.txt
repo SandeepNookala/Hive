@@ -1,0 +1,98 @@
+Creating Hive internal tables:
+------------------------------
+create table employee(
+empid int,
+fname varchar(20),
+lname varchar(20),
+gender varchar(20))
+row format delimited fields terminated by ',';
+
+
+
+employee seed data:
+-------------------
+
+1001,SANDEEP,NOOKALA,F
+1002,SATISH,NOOKALA,M
+1003,ANUSHA,JANGILI,F
+1004,KRISHNA,NOOKALA,M
+1005,PADMA',TADDU',F
+1006,SWEETY,YANAMALA,F
+1007,KRISHNA,REDDY,M
+1008,RAVI,RANGRAJAN,M
+1009,SAMAY,GUNDEAPPA,M
+1010,BHARGAVI,NAGRAJAN,F
+1011,SHRUTHI,SHAMALA,F
+
+
+loading hdfs data into hive table:
+----------------------------------
+
+load data inpath '/user/cloudera/employee.csv' into table employee;
+
+load data inpath '/user/cloudera/employee.csv' overwrite into table employee;
+
+
+
+Creating Hive internal tables:
+------------------------------
+Create table dept(
+deptid int,
+Age int,
+Dept varchar(20))
+row format delimited fields terminated by '~';
+
+
+
+dept seed data:
+-------------------
+1002~29~MARKETING
+1003~30~HR
+1005~31~SALES
+1006~27~MARKETING
+1007~26~HR
+1010~32~HR
+1011~33~MARKETING
+1012~26~ADMIN
+1011~32~ADMIN
+1013~33~ADMIN
+
+
+load data inpath '/user/cloudera/dept.csv' into table dept;
+load data inpath '/user/cloudera/dept.csv' overwrite into table dept;
+
+
+Create table using Advance datatypes:
+------------------------------------
+Advance Data types:
+-------------------
+1.Array
+2.map
+3.struct
+
+
+create table personal_info(
+perid int,
+location array<string> ,
+contact map<string,int> ,
+other_info struct<company:string,salary:int,location:string>)
+row format delimited
+fields terminated by '$'
+collection items terminated by ','
+map keys terminated by ':'
+lines terminated by '\n';
+
+personal_info seed data:
+-----------------------
+
+1001$DELHI,INDIA$CODE:91,MOBILE:797900$TCS,10000,BANGALORE
+1002$DELHI,INDIA$CODE:92,MOBILE:6969000$WIPRO,12000,BANGALORE
+1003$MUMBAI,INDIA$CODE:93,MOBILE:595900$HCL,13000,AUSTRALIA
+1004$HYDERABAD,INDIA$CODE:94,MOBILE:494900$INFOSYS,1500,HYDERABAD
+1005$LUCKNOW,INDIA$CODE:95,MOBILE:393900$SHEARFORCE,1200,HYDERABAD
+1006$TOKYO,JAPAN$CODE:96,MOBILE:292900$GOOGLE,100000,AUSTRALIA
+1010$MELBOURNE,AUSTRALIA$CODE:97,MOBILE:796900$FACEBOOK,120000,USA
+1011$SINGAPORE,SINGAPORE$CODE:98,MOBILE:795900$INSTAGRAM,110000,USA
+
+
+load data inpath '/user/cloudera/personal.csv' overwrite into table personal_info;
