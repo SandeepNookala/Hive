@@ -1,10 +1,9 @@
 Creating Hive internal tables:
 ------------------------------
-
-employee table:
-==============
+internal employee table:
+=======================
 create table employee(
-empno int,
+emp_id int,
 name varchar(20),
 manager_id int,
 hire_date varchar(20),
@@ -15,6 +14,24 @@ job varchar(20))
 row format delimited
 fields terminated by ','
 lines terminated by '\n' ;
+
+
+
+load data inpath '/home/cloudera/Data/employee.txt' into table employee;
+
+load data local inpath '/home/cloudera/Data/employee.txt' into table employee;
+
+insert into table employee_pati partion(job) select * from employee;
+
+Data loading:
+=============
+load data local inpath '/home/cloudera/Data/employee.txt' into table employee;
+load data local inpath '/home/cloudera/Data/employee.txt' overwrite into table employee;
+
+Quries:
+=======
+select * from employee;
+describe formatted employee_external;
 
 employee seed data:
 -------------------
@@ -46,7 +63,7 @@ loading hdfs data into hive table:
 load data inpath '/user/cloudera/employee.txt' overwrite into table employee;
 
 
-Creating Hive internal tables:
+Hive internal dept tables:
 ------------------------------
 Create table dept(
 deptid int,
@@ -161,29 +178,6 @@ hdfs dfs -put day2.txt /user/cloudera
 load data inpath '/user/cloudera/day2.txt' overwrite into table day2;
 
 
-internal table:
-===============
-create table employee(
-emp_id int,
-name varchar(20),
-manager_id int,
-hire_date varchar(20),
-salary int,
-deptno int,
-updated_date varchar(20),
-job varchar(20))
-row format delimited
-fields terminated by ','
-lines terminated by '\n' ;
 
-Data loading:
-=============
-load data local inpath '/home/cloudera/Data/employee.txt' into table employee;
-load data local inpath '/home/cloudera/Data/employee.txt' overwrite into table employee;
-
-Quries:
-=======
-select * from employee;
-describe formatted employee_external;
 
 

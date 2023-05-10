@@ -1,0 +1,127 @@
+
+External Table without location:
+================================
+create external table employee_ext_NoLoc(
+emp_id int,
+name varchar(20),
+manager_id int,
+hire_date varchar(20),
+salary int,
+deptno int,
+updated_date varchar(20),
+job varchar(20))
+row format delimited
+fields terminated by ','
+lines terminated by '\n';
+
+Data loading:
+=============
+load data local inpath '/home/cloudera/Data/employee.txt' into table employee_ext_NoLoc;
+load data local inpath '/home/cloudera/Data/employee.txt' overwrite into table employee_ext_NoLoc;
+
+Quries:
+=======
+select * from employee_ext_NoLoc;
+describe formatted employee_ext_NoLoc;
+
+
+
+External Table with location:
+=============================
+create external table employee_ext_loc(
+emp_id int,
+name varchar(20),
+manager_id int,
+hire_date varchar(20),
+salary int,
+deptno int,
+updated_date varchar(20),
+job varchar(20))
+row format delimited
+fields terminated by ','
+lines terminated by '\n'
+location '/user/hive/External/employee_ext';
+
+Data loading:
+=============
+load data local inpath '/home/cloudera/Data/employee.txt' into table employee_ext_loc;
+load data local inpath '/home/cloudera/Data/employee.txt' overwrite into table employee_ext_loc;
+
+Quries:
+=======
+select * from employee_ext_loc;
+describe formatted employee_ext_loc;
+
+
+External table -- file stored as ORC:
+=====================================
+create external table employee_orc(
+emp_id int,
+name varchar(20),
+manager_id int,
+hire_date varchar(20),
+salary int,
+deptno int,
+updated_date varchar(20),
+job varchar(20))
+row format delimited
+fields terminated by ','
+lines terminated by '\n'
+stored as ORC
+location '/user/hive/External/employee_orc';
+
+load data:
+==========
+
+insert into table employee_orc select * from employee;
+
+insert overwrite into table employee_orc select * from employee;
+
+Quries:
+=======
+select * from employee_orc;
+describe formatted employee_orc;
+
+
+External partition table:
+=========================
+create external table employee_parti(
+emp_id int,
+name varchar(20),
+manager_id int,
+hire_date varchar(20),
+salary int,
+deptno int,
+updated_date varchar(20))
+partitioned by (job varchar(20))
+location '/user/hive/External/employee_parti';
+
+load data:
+===========
+insert into table employee_parti partition(job) select * from employee;
+
+Quries:
+=======
+select * from employee_parti;
+describe formatted employee_parti;
+
+External partition table - stored as parquet:
+=============================================
+create external table employee_parti_par(
+emp_id int,
+name varchar(20),
+manager_id int,
+hire_date varchar(20),
+salary int,
+deptno int,
+updated_date varchar(20))
+partitioned by (job varchar(20))
+stored as Parquet
+location '/user/hive/External/employee_parti_par';
+
+insert into table employee_parti_par partition(job) select * from employee;
+
+Quries:
+=======
+select * from employee_parti_par;
+describe formatted employee_parti_par;
