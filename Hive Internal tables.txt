@@ -2,6 +2,7 @@ Creating Hive internal tables:
 ------------------------------
 internal employee table:
 =======================
+
 create table employee(
 emp_id int,
 name varchar(20),
@@ -14,24 +15,6 @@ job varchar(20))
 row format delimited
 fields terminated by ','
 lines terminated by '\n' ;
-
-
-
-load data inpath '/home/cloudera/Data/employee.txt' into table employee;
-
-load data local inpath '/home/cloudera/Data/employee.txt' into table employee;
-
-insert into table employee_pati partion(job) select * from employee;
-
-Data loading:
-=============
-load data local inpath '/home/cloudera/Data/employee.txt' into table employee;
-load data local inpath '/home/cloudera/Data/employee.txt' overwrite into table employee;
-
-Quries:
-=======
-select * from employee;
-describe formatted employee_external;
 
 employee seed data:
 -------------------
@@ -51,16 +34,6 @@ employee seed data:
 7934,MILLER,7782,01-03-1982,1300,10,05-02-2022,CLERK
 1234,SEKHAR,7777,null,667,80,06-02-2022,doctor
 1234,RAM,7457,null,494,80,03-01-2021,CLERK
-
-
-move data to hdfs:
-------------------
-hdfs dfs -put employee.txt /user/cloudera
-
-
-loading hdfs data into hive table:
-----------------------------------
-load data inpath '/user/cloudera/employee.txt' overwrite into table employee;
 
 
 Hive internal dept tables:
@@ -84,10 +57,6 @@ dept seed data:
 1012~26~ADMIN
 1011~32~ADMIN
 1013~33~ADMIN
-
-
-load data inpath '/user/cloudera/dept.txt' into table dept;
-load data inpath '/user/cloudera/dept.txt' overwrite into table dept;
 
 
 Create table using Advance datatypes:
@@ -172,10 +141,7 @@ seed data demo2:
 2,bbbb,kkkk,2020-06-20
 3,cccc,llll,2020-06-20
  
-loading data:
-------------
-hdfs dfs -put day2.txt /user/cloudera
-load data inpath '/user/cloudera/day2.txt' overwrite into table day2;
+
 
 
 

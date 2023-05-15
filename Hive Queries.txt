@@ -1,69 +1,119 @@
 
-**************   HIVE  ****************
+Data Loading statments:
+=======================
+
+1.load data into table from local system:
+=========================================
+
+load data local inpath '/home/cloudera/Data/employee.txt' into table employee;
 
 
-1.Select Query:
-------------------
+2.overwrite existing table data from local system :
+===================================================
+
+load data local inpath '/home/cloudera/Data/employee.txt' overwrite into table employee;
+
+
+3.moving data from local to hdfs:
+=================================
+
+hdfs dfs -copyFromLocal employee.txt /user/cloudera/Data/
+hdfs dfs -put employee.txt /user/cloudera/Data/
+
+
+4.load data into table from hdfs:
+=================================
+load data inpath '/user/cloudera/Data/employee.txt' into table employee;
+
+
+5.overwrite existing table data from hdfs:
+==========================================
+load data inpath '/home/cloudera/Data/employee.txt' overwrite into table employee;
+
+
+6.Select Query:
+===============
 select * from employee;
 
 
-2.Details of table:
---------------------
+7.Details of table:
+===================
 describe employee;
 
 describe formatted employee;
 
-3.limit:
---------
-select * from employee limit 5;
 
-select * from employee limit 5;
+Alter statments:
+================
+8.Rename table:
+===============
+alter table <table-name> rename to <new-table-name>;
 
-
-4.alter statments:
-==================
-
-Rename table:
----------------
-alter table new rename to new_emp;
+alter table employee rename to emp ;
 
 
-add new columns to table:
--------------------------
+9.add new columns to table:
+===========================
 
-alter table new_emp add columns(location varchar(20));
-alter table new_emp  add columns (city varchar(20));
+alter table <table-name> add columns <(column-name ,datatype)> ;
+
+alter table emp add columns (city varchar(20));
+alter table emp add columns (location varchar(20));
 
 
-drop table column:
-------------------
+10.drop table column:
+=====================
 
 can't drop column in hive table.
 
 
-change position of columns:
-----------------------------
-alter table new_emp change column job job varchar(20) after city;
+11.change position of columns:
+==============================
+alter table <table-name> change <column-name> <column-name datatype> after <column-name> ;
 
 
+alter table emp change column job job varchar(20) after location;
 
-change name of column:
-----------------------
-alter table new_emp change column name fname varchar(20);
+12.change name of column:
+=========================
 
-alter table new_emp change column deptno dept_id int;
+alter table <table-name> change column <column-name> <column-name datatype> ;
+
+alter table emp change column emp_id id int ;
+
+13.change DataType of column:
+=============================
+
+create table emp like employee;
+
+alter table emp change column emp_id emp_id varchar(20) ;
+
+alter table employee change column (emp_id varchar(20));
+
+13.Create new table from old table with sechema and data:
+=========================================================
+
+create table new as select * from emp;
 
 
-
-5.Create new table from old table with sechema and data:
-------------------------------------------------------
-create table emp as select empid,fname,salary from employee;
-
-
-6.Create new table from old table with sechema and without data:
---------------------------------------------------------------
+14.Create new table from old table with sechema and without data:
+=================================================================
 create table updated_emp like employee;
 create table update as select * from employee where 1=2; #trigger map reduce job
+
+15. drop table:
+===============
+
+drop table emp;
+
+16. truncate table:
+===================
+
+truncate table new ;
+
+17.limit:
+=========
+select * from employee limit 5;
 
 
 7.order by :
@@ -124,6 +174,7 @@ select * from day2)
 t1)t2
 where rn =1;
 
+
 overwrite:
 ----------
 insert overwrite table day1 select * from temp;
@@ -134,7 +185,7 @@ drop:
 drop table temp;
 
 15.create external partition table:
-====================================
+===================================
 
 create external table employee_parti(
 emp_id int,
@@ -156,12 +207,12 @@ insert overwrite table employee_parti partition(job) select * from employee;
 
 
 17.show partition of a table:
-==========================
+=============================
 show partitions employee_parti;
 
 
 18.Bucketing table:
-================
+===================
 create external table employee_buck(
 emp_id int,
 name varchar(20),
@@ -183,7 +234,7 @@ insert into table employee_buck select * from employee;
 
 
 20.window/Analitical functions:
-------------------
+===============================
 
 row_number():
 ===========
