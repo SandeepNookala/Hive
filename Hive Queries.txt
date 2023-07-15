@@ -8,10 +8,12 @@ Data Loading statments:
 load data local inpath '/home/cloudera/Data/employee.txt' into table employee;
 
 
+
 2.overwrite existing table data from local system :
 ===================================================
 
 load data local inpath '/home/cloudera/Data/employee.txt' overwrite into table employee;
+
 
 
 3.moving data from local to hdfs:
@@ -21,9 +23,11 @@ hdfs dfs -copyFromLocal employee.txt /user/cloudera/Data/
 hdfs dfs -put employee.txt /user/cloudera/Data/
 
 
+
 4.load data into table from hdfs:
 =================================
 load data inpath '/user/cloudera/Data/employee.txt' into table employee;
+
 
 
 5.overwrite existing table data from hdfs:
@@ -31,9 +35,11 @@ load data inpath '/user/cloudera/Data/employee.txt' into table employee;
 load data inpath '/home/cloudera/Data/employee.txt' overwrite into table employee;
 
 
+
 6.Select Query:
 ===============
 select * from employee;
+
 
 
 7.Details of table:
@@ -41,6 +47,7 @@ select * from employee;
 describe employee;
 
 describe formatted employee;
+
 
 
 Alter statments:
@@ -61,34 +68,36 @@ alter table emp add columns (city varchar(20));
 alter table emp add columns (location varchar(20));
 
 
+
 10.drop table column:
 =====================
 
 can't drop column in hive table.
 
 
+
 11.change position of columns:
 ==============================
 alter table <table-name> change <column-name> <column-name datatype> after <column-name> ;
 
-
 alter table emp change column job job varchar(20) after location;
+
+
 
 12.change name of column:
 =========================
 
-alter table <table-name> change column <column-name> <column-name datatype> ;
+alter table <table-name> change column <column-name> <new column-name datatype> ;
 
-alter table emp change column emp_id id int ;
+alter table emp change column employee_id emp_id int ;
+
+
 
 13.change DataType of column:
 =============================
-
-create table emp like employee;
-
 alter table emp change column emp_id emp_id varchar(20) ;
 
-alter table employee change column (emp_id varchar(20));
+
 
 13.Create new table from old table with sechema and data:
 =========================================================
@@ -96,38 +105,52 @@ alter table employee change column (emp_id varchar(20));
 create table new as select * from emp;
 
 
+
 14.Create new table from old table with sechema and without data:
 =================================================================
 create table updated_emp like employee;
 create table update as select * from employee where 1=2; #trigger map reduce job
+
+
 
 15. drop table:
 ===============
 
 drop table emp;
 
+
+
 16. truncate table:
 ===================
 
 truncate table new ;
+
+
 
 17.limit:
 =========
 select * from employee limit 5;
 
 
+
 7.order by :
 ----------
 select * from employee order by salary;
 
-8.order by :
+
+
+8.sort by :
 ----------
 select * from employee sort by salary;
+
+
 
 9.group by:
 ---------
 
 select sum(salary),dept from employee group by dept;
+
+
 
 10.Inner join :
 ----------------
@@ -137,6 +160,8 @@ from employee
 join dept
 on employee.empid = dept.deptid ;
 
+
+
 11.left join :
 ----------------
 
@@ -144,6 +169,8 @@ select employee.* ,dept.*
 from employee
 left join dept 
 on employee.empid = dept.deptid ;
+
+
 
 12.right join:
 --------------
@@ -153,6 +180,8 @@ from employee
 right join dept 
 on employee.empid = dept.deptid ;
 
+
+
 13.full join:
 --------------
 
@@ -160,6 +189,7 @@ select employee.* ,dept.*
 from employee
 full join dept
 on employee.empid = dept.deptid ;
+
 
 
 14.Hive Incremental Load:
@@ -175,14 +205,17 @@ t1)t2
 where rn =1;
 
 
-overwrite:
-----------
+
+overwrite table with another table:
+------------------------------------
 insert overwrite table day1 select * from temp;
 
 drop:
 -----
 
 drop table temp;
+
+
 
 15.create external partition table:
 ===================================
@@ -199,6 +232,7 @@ partitioned by (job varchar(20))
 location '/user/hive/External/employee_parti';
 
 
+
 16. load data in partition table:
 =================================
 set hive.exec.dynamic.partition.mode=nonstrict;
@@ -206,9 +240,11 @@ insert into table employee_parti partition(job) select * from employee;
 insert overwrite table employee_parti partition(job) select * from employee;
 
 
+
 17.show partition of a table:
 =============================
 show partitions employee_parti;
+
 
 
 18.Bucketing table:
@@ -224,6 +260,8 @@ updated_date varchar(20),
 job varchar(20))
 clustered by (job) into 5 buckets
 location '/user/hive/External/employee_buck';
+
+
 
 19. load data in bucketing table:
 =================================
@@ -246,6 +284,7 @@ rank():
 =======
 
 select *,rank() over(order by salary desc)rk from employee;
+
 
 dense_rank():
 =============
