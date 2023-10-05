@@ -7,7 +7,7 @@ Data Loading statments:
 
 load data local inpath '/home/cloudera/Data/employee.txt' into table employee;
 
-
+load data local inpath '' into table employee
 
 2.overwrite existing table data from local system :
 ===================================================
@@ -262,7 +262,6 @@ clustered by (job) into 5 buckets
 location '/user/hive/External/employee_buck';
 
 
-
 19. load data in bucketing table:
 =================================
 set hive.enforce.bucketing = true;
@@ -275,20 +274,17 @@ insert into table employee_buck select * from employee;
 ===============================
 
 row_number():
-===========
-
+=============
 select *,row_number() over(order by salary desc) rn from employee;
 
 
 rank():
 =======
-
 select *,rank() over(order by salary desc)rk from employee;
 
 
 dense_rank():
 =============
 select *,dense_rank() over(order by salary desc) from employee;
-
 
 
